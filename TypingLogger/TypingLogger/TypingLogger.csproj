@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>8d1ae9c7-89f8-44f1-9cfd-29532814447b</ProjectGuid>
+    <ProjectGuid>{4BA6B153-2142-4DD7-8CC1-E4205E1D09C8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TypingLogger</RootNamespace>
