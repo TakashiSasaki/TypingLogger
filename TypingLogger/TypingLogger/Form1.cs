@@ -13,19 +13,24 @@ namespace TypingLogger
 {
     public partial class Form1 : Form
     {
+        const string filePath = @".\log.txt";
+        StreamWriter sw;
         bool keyS = false;
         bool keyD = false;
         bool keyF = false;
         bool keyJ = false;
         bool keyK = false;
         bool keyL = false;
-        int t = 0;
+        int count = 0;
         Dictionary<int, string> dic;
 
         public Form1()
         {
             InitializeComponent();
+            sw  = new StreamWriter(filePath, true, Encoding.UTF8);
 
+            //http://www.eva.hi-ho.ne.jp/dayan01/tenkaku50t.htm
+            //http://littlesnow.jp/education/6points.htm
             dic = new Dictionary<int,string>();
             dicAdd(false, false, true, false, false, false, "あ");
             dicAdd(false, true, true, false, false, false, "い");
@@ -74,6 +79,8 @@ namespace TypingLogger
             dicAdd(true, false, false, false, true, false, "を");
             dicAdd(true, false, false, false, true, true, "ん");
 
+            dicAdd(false, true, false, false, true, false, "ー");
+            dicAdd(false, true, false, false, false, false, "っ");
         }
 
         private void dicAdd(bool s, bool d, bool f, bool j, bool k, bool l,string str)
@@ -96,110 +103,106 @@ namespace TypingLogger
             
         }
         
-        private void button1_KeyDown(object sender, KeyEventArgs e)
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {            
-            string filePath = @".\log.txt";
-            StreamWriter sw = new StreamWriter(filePath, true, Encoding.UTF8);
 
-            if (e.KeyCode == Keys.S && keyS == false)
+            if (e.KeyCode == Keys.S)
             {
                 keyS = true;
-                //this.button1.Text = DateTime.Now.Millisecond.ToString();
-                this.button1.BackColor = Color.FromArgb(0x00, 0x00, 0xFF);
-                writeLog(sw);
+                this.button1.BackColor = Color.Red;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.D && keyD == false)
             {
                 keyD = true;
-                this.button2.BackColor = Color.FromArgb(0x00, 0x00, 0xFF);
-                writeLog(sw);
+                this.button2.BackColor = Color.Red;
+                writeLog();
             }
 
 
             if (e.KeyCode == Keys.F && keyF == false)
             {
                 keyF = true;
-                this.button3.BackColor = Color.FromArgb(0x00, 0x00, 0xFF);
-                writeLog(sw);
+                this.button3.BackColor = Color.Red;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.J && keyJ == false)
             {
                 keyJ = true;
-                this.button4.BackColor = Color.FromArgb(0x00, 0x00, 0xFF);
-                writeLog(sw);
+                this.button4.BackColor = Color.Red;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.K && keyK == false)
             {
                 keyK = true;
-                this.button5.BackColor = Color.FromArgb(0x00, 0x00, 0xFF);
-                writeLog(sw);
+                this.button5.BackColor = Color.Red;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.L && keyL == false)
             {
                 keyL = true;
-                this.button6.BackColor = Color.FromArgb(0x00, 0x00, 0xFF);
-                writeLog(sw);
+                this.button6.BackColor = Color.Red;
+                writeLog();
             }
-
-            sw.Close();
-
         }
 
 
-        private void button1_KeyUp(object sender, KeyEventArgs e)
+        private void textBox1_KeyUp(object sender, KeyEventArgs e)
         {
-            string filePath = @".\log.txt";
-            StreamWriter sw = new StreamWriter(filePath, true, Encoding.UTF8);
-
-            if (e.KeyCode == Keys.S && keyS == true)
+            if (e.KeyCode == Keys.S)
             {
                 keyS = false;
                 this.button1.UseVisualStyleBackColor = true;
-                writeLog(sw);
+                this.button1.BackColor = Color.Blue;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.D && keyD == true)
             {
                 keyD = false;
                 this.button2.UseVisualStyleBackColor = true;
-                writeLog(sw);
+                this.button2.BackColor = Color.Blue;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.F && keyF == true)
             {
                 keyF = false;
                 this.button3.UseVisualStyleBackColor = true;
-                writeLog(sw);
+                this.button3.BackColor = Color.Blue;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.J && keyJ == true)
             {
                 keyJ = false;
                 this.button4.UseVisualStyleBackColor = true;
-                writeLog(sw);
+                this.button4.BackColor = Color.Blue;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.K && keyK == true)
             {
                 keyK = false;
                 this.button5.UseVisualStyleBackColor = true;
-                writeLog(sw);
+                this.button5.BackColor = Color.Blue;
+                writeLog();
             }
 
             if (e.KeyCode == Keys.L && keyL == true)
             {
                 keyL = false;
                 this.button6.UseVisualStyleBackColor = true;
-                writeLog(sw);
+                this.button6.BackColor = Color.Blue;
+                writeLog();
             }
-            sw.Close();
         }
 
-        private void writeLog(StreamWriter sw)
+        private void writeLog()
         {
             // 対応する文字を取得
             int key = 0;
@@ -213,18 +216,16 @@ namespace TypingLogger
 
             if (key == 0)
             {
-                this.button7.Text = "";
+                this.button7.Text = "no key";
             }
             else if (dic.TryGetValue(key, out str) == false)
             {
-
+                this.button7.Text = "unknown";
             }
-            else // 対応文字があるとき
-            {
-                t++;
+                count++;
                 DateTime targetTime = DateTime.Now;
                 long unixTime = GetUnixTime(targetTime);
-                sw.Write(t.ToString() + "," + unixTime.ToString() + ",");
+                sw.Write(count.ToString() + "," + unixTime.ToString() + ",");
 
                 if (keyS == true)
                 {
@@ -283,8 +284,7 @@ namespace TypingLogger
                 sw.Write(str + ",0\r\n");
                 this.button7.Font = new Font("Arial", 40);
                 this.button7.Text = str;
-            }
-
+                sw.Flush();
         }
 
         public static long GetUnixTime(DateTime targetTime)
