@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace TypingLogger
 {
     partial class Form1
     {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace WindowsFormsApplication1
+namespace TypingLogger
 {
     public partial class Form1 : Form
     {
@@ -98,7 +98,7 @@ namespace WindowsFormsApplication1
         
         private void button1_KeyDown(object sender, KeyEventArgs e)
         {            
-            string filePath = @"C:\Users\watanabe-3\Desktop\sdfjkl.txt";
+            string filePath = @".\log.txt";
             StreamWriter sw = new StreamWriter(filePath, true, Encoding.UTF8);
 
             if (e.KeyCode == Keys.S && keyS == false)
@@ -152,7 +152,7 @@ namespace WindowsFormsApplication1
 
         private void button1_KeyUp(object sender, KeyEventArgs e)
         {
-            string filePath = @"C:\Users\watanabe-3\Desktop\sdfjkl.txt";
+            string filePath = @".\log.txt";
             StreamWriter sw = new StreamWriter(filePath, true, Encoding.UTF8);
 
             if (e.KeyCode == Keys.S && keyS == true)
